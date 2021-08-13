@@ -16,6 +16,10 @@
 
 ATutorialCharacter::ATutorialCharacter()
 {
+	AbilitySystemComponent = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("AbilitySystemComponent"));
+	AbilitySystemComponent->SetIsReplicated(true);
+	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Full);
+
 	Attributes = CreateDefaultSubobject<UTutorialAttributeSet>(TEXT("CharacterAttributes"));
 
 	// Set size for collision capsule
@@ -91,6 +95,11 @@ void ATutorialCharacter::BeginPlay()
 	InitEffects();
 }
 
+class UAbilitySystemComponent* ATutorialCharacter::GetAbilitySystemComponent() const
+{
+	return AbilitySystemComponent;
+}
+
 void ATutorialCharacter::OnResetVR()
 {
 	// If Tutorial is added to a project via 'Add Feature' in the Unreal Editor the dependency on HeadMountedDisplay in Tutorial.Build.cs is not automatically propagated
@@ -104,12 +113,12 @@ void ATutorialCharacter::OnResetVR()
 
 void ATutorialCharacter::TouchStarted(ETouchIndex::Type FingerIndex, FVector Location)
 {
-		Jump();
+	Jump();
 }
 
 void ATutorialCharacter::TouchStopped(ETouchIndex::Type FingerIndex, FVector Location)
 {
-		StopJumping();
+	StopJumping();
 }
 
 void ATutorialCharacter::TurnAtRate(float Rate)

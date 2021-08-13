@@ -6,13 +6,14 @@
 #include "GameFramework/Character.h"
 #include "TutorialAttributeSet.h"
 #include "AbilitySystemComponent.h"
+#include "AbilitySystemInterface.h"
 #include "TutorialGameplayEffect.h"
 #include "TutorialCharacter.generated.h"
 
 class UTutorialGameplayEffect;
 
 UCLASS(config=Game)
-class ATutorialCharacter : public ACharacter
+class ATutorialCharacter : public ACharacter, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
@@ -25,9 +26,6 @@ class ATutorialCharacter : public ACharacter
 	class UCameraComponent* FollowCamera;
 
 public:
-	ATutorialCharacter();
-
-	virtual void BeginPlay() override;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Abilities")
 	UAbilitySystemComponent* AbilitySystemComponent;
@@ -48,6 +46,14 @@ public:
 
 	UPROPERTY(Replicated, BlueprintReadWrite, Category = "Effects")
 	TArray<FEffectKeyPair> Effects;
+
+public: 
+
+	ATutorialCharacter();
+
+	virtual void BeginPlay() override;
+
+	virtual class UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
 protected:
 
