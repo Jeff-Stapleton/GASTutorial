@@ -7,12 +7,13 @@
 #include "TutorialAttributeSet.h"
 #include "AbilitySystemComponent.h"
 #include "TutorialGameplayEffect.h"
+#include "AbilitySystemInterface.h"
 #include "TutorialCharacter.generated.h"
 
 class UTutorialGameplayEffect;
 
 UCLASS(config=Game)
-class ATutorialCharacter : public ACharacter
+class ATutorialCharacter : public ACharacter, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
@@ -28,6 +29,8 @@ public:
 	ATutorialCharacter();
 
 	virtual void BeginPlay() override;
+
+	virtual class UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Abilities")
 	UAbilitySystemComponent* AbilitySystemComponent;
