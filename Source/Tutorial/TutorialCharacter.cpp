@@ -16,6 +16,10 @@
 
 ATutorialCharacter::ATutorialCharacter()
 {
+	AbilitySystemComponent = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("AbilitySystemComponent"));
+	AbilitySystemComponent->SetIsReplicated(true);
+	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Full);
+
 	Attributes = CreateDefaultSubobject<UTutorialAttributeSet>(TEXT("CharacterAttributes"));
 
 	// Set size for collision capsule
@@ -89,6 +93,11 @@ void ATutorialCharacter::BeginPlay()
 	AbilitySystemComponent->InitAbilityActorInfo(this, this);
 
 	InitEffects();
+}
+
+class UAbilitySystemComponent* ATutorialCharacter::GetAbilitySystemComponent() const
+{
+	return AbilitySystemComponent;
 }
 
 void ATutorialCharacter::OnResetVR()
